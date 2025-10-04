@@ -1,9 +1,3 @@
-vim.keymap.set('n', '<Tab>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<S-Tab>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
-vim.keymap.set('n', '<leader>b', function()
-  require('mini.bufremove').delete(0, false)
-end, { desc = 'Delete buffer without focus loss' })
-
 return {
   {
     'akinsho/bufferline.nvim',
@@ -35,13 +29,20 @@ return {
       }
       vim.opt.termguicolors = true
       vim.opt.showtabline = 2
+      vim.keymap.set('n', '<Tab>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' })
+      vim.keymap.set('n', '<S-Tab>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
     end,
   },
   {
     'echasnovski/mini.bufremove',
     version = '*',
     config = function()
-      require('mini.bufremove').setup()
+      local bufremove = require 'mini.bufremove'
+      bufremove.setup()
+
+      vim.keymap.set('n', '<leader>b', function()
+        bufremove.delete(0, false)
+      end, { desc = 'Delete buffer' })
     end,
   },
 }
